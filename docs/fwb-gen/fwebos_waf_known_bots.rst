@@ -342,7 +342,6 @@ Examples
 --------
 .. code-block:: yaml+jinja
 
----
  - name:
    hosts: all
    vars:
