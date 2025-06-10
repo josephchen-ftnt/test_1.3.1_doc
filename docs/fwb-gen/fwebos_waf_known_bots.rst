@@ -355,7 +355,7 @@ Examples
         dos_status: enable
         dos_action: alert_deny
         dos_block_period: 600
-        dos_severity: High
+        dos_severity: Low
         dos_threat_weight: critical
 
     - name: edit a known bot profile
