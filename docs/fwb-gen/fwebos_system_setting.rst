@@ -81,17 +81,15 @@ Examples
 --------
 .. code-block:: yaml+jinja
 
----
-- name:
-  hosts: all
-  connection: httpapi
-  gather_facts: false
-  tasks:
+ - name:
+   hosts: all
+   connection: httpapi
+   gather_facts: false
+   tasks:
     - name: Manage system setting
       fwebos_system_setting:
        idle_timeout: 468
        hostname: testhost1
- 
 
 Return Values
 -------------
