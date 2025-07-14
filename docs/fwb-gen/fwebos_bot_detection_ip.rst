@@ -5,7 +5,6 @@
 .. fwebos_bot_detection_ip.py:
 
 fwebos_bot_detection_ip.py -- Config FortiWeb Bot Detection Limit Sample Collections From IPs
-
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. versionadded:: 1.0.1
