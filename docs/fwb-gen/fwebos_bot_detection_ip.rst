@@ -16,7 +16,7 @@ fwebos_bot_detection_ip.py -- Config FortiWeb Bot Detection Limit Sample Collect
 
 Synopsis
 --------
-Config FortiWeb Bot Detection Limit Sample Collections From IPs
+Config FortiWeb Bot Detection Policy
 
 
 Requirements
@@ -42,7 +42,7 @@ FortiWeb Version Compatibility
  <td><code class="docutils literal notranslate">v7.6.x </code></td>
  </tr>
  <tr>
- <td>fwebos_bot_detection_ip.py</td>
+ <td>fwebos_bot_detection.py</td>
  <td>yes</td>
  <td>yes</td>
  <td>yes</td>
@@ -63,12 +63,64 @@ Parameters
   <ul>
   <li><span class="li-head">body</span> Possible parameters to go in the body for the request <span class="li-required">required: True </li>
         <ul class="ul-self">
-              <li><span class="li-head"> id </span> The numerical ID of Limit Sample Collections From IPs.<span class="li-normal"> type:string 
+              <li><span class="li-head"> id </span> The numerical index of bot detection policy.<span class="li-normal"> type:string 
                     maxLength:63</span></li>  
-              <li><span class="li-head"> policy_id </span> The numerical ID of Server Policy. <span class="li-normal"> type:string 
+              <li><span class="li-head"> policy_id </span> The numerical policy ID of the Server Policy. It is the same one as used in CLI.<span class="li-normal"> type:string 
                     maxLength:63</span></li>  
-              <li><span class="li-head"> ip</span> IP Range (e.g. 1.2.3.4-1.2.3.40, 2001::1-2001::100).<span class="li-normal">  type:string 
+              <li><span class="li-head"> allow_ip </span> Limit Sample Collections From IPs.<span class="li-normal"> type:list 
                     maxLength:63</span></li>  
+              <li><span class="li-head"> advanced_mode </span> Enable or disable Advanced Mode. <span class="li-normal"> type:string choice:
+                      enable,
+                      disable</span></li>
+              <li><span class="li-head"> client_identification_method </span> Client Identification Method.<span class="li-normal"> type:string choice:
+                      IP-and-User-Agent,
+                      IP,
+                      Cookie</span></li>
+              <li><span class="li-head"> sampling_count </span> Sample Count.<span class="li-normal"> type:integer
+                    maximum:1000
+                    minimum:1</span></li>
+              <li><span class="li-head"> sampling_count_per_client </span> Sample Count per Client per Hour. <span class="li-normal"> type:integer
+                    maximum:60
+                    minimum:1</span></li>
+              <li><span class="li-head"> sampling_time_per_vector </span> Sampling Time per Vector. <span class="li-normal"> type:integer
+                    maximum:10
+                    minimum:1</span></li>
+              <li><span class="li-head"> selected_model </span> Model Type for Model Building Settings.<span class="li-normal">  type:string choice:
+                      Strict,
+                      Moderate</span></li>
+              <li><span class="li-head"> anomaly_count </span>Anomaly Count.<span class="li-normal"> type:integer
+                    maximum:65535
+                    minimum:1</span></li>
+              <li><span class="li-head"> bot_confirmation </span> Enable or disable Bot Confirmation. <span class="li-normal"> type:string choice:
+                      enable,
+                      disable</span></li>
+              <li><span class="li-head"> verification_method </span> Bot Verification Method. <span class="li-normal"> type:string choice:
+                      Real-Browser-Enforement,
+                      Disable,
+                      Captcha-Enforcement</span></li>
+              <li><span class="li-head"> security </span> Select security level.<span class="li-normal"> type:string choice:
+                      Info,
+                      Low,
+                      Medium,
+                      High</span></li>       
+              <li><span class="li-head"> security_action </span> Choose the action FortiWeb takes when a user client is confirmed as a bot.<span class="li-normal"> type:string choice:
+                      alert,
+                      deny_no_log,
+                      alert_deny,
+                      block-period,
+                      client-id-block-period,</span></li>
+              <li><span class="li-head"> block_period </span> Block Period.<span class="li-normal"> type:integer
+                    maximum:3600
+                    minimum:1</span></li>
+              <li><span class="li-head"> security </span> Select security level.<span class="li-normal"> type:string choice:
+                      Info,
+                      Low,
+                      Medium,
+                      High</span></li>
+              <li><span class="li-head"> trigger </span> Select the trigger policy, if any, that FortiWeb carries out when it logs and/or sends an alert email about a violation.<span class="li-normal"> type:string 
+                    maxLength:255 </span></li>  
+              <li><span class="li-head"> global_exception </span> Select New Bot Mitigation Exception Policy.<span class="li-normal"> type:string 
+                    maxLength:255 </span></li>  
         <li><span class="li-head">mkey</span> If present, objects will be filtered on property with this name <span class="li-normal"> type:string </span></li><li><span class="li-head">vdom</span> Specify the Virtual Domain(s) from which results are returned or changes are applied to. If this parameter is not provided, the management VDOM will be used. If the admin does not have access to the VDOM, a permission error will be returned. The URL parameter is one of: vdom=root (Single VDOM) vdom=vdom1,vdom2 (Multiple VDOMs) vdom=* (All VDOMs)   <span class="li-normal"> type:array </span></li><li><span class="li-head">clone_mkey</span> Use *clone_mkey* to specify the ID for the new resource to be cloned.  If *clone_mkey* is set, *mkey* must be provided which is cloned from.   <span class="li-normal"> type:string </span></li>
   </ul>
 
@@ -82,36 +134,31 @@ Examples
    connection: httpapi
    gather_facts: false
    tasks:
-    - name: add a bot detection policy ip
-      fwebos_bot_detection_ip_ip:
+    - name: add a bot detection policy
+      fwebos_bot_detection:
         action: add 
-        policy_id: 2
-        ip: 10.11.3.4
+        policy_id: 6814698978843458079
+        allow_ip:
+          - 11.2.3.4
+          - 192.168.253.1
 
-    - name: get all bot detection policy ip
-      fwebos_bot_detection_ip_ip:
+    - name: get a bot detection policy
+      fwebos_bot_detection:
         action: get 
-        policy_id: 2
+        id: 1
 
-    - name: get a bot detection policy ip
-      fwebos_bot_detection_ip_ip:
-        action: get 
-        policy_id: 2
-        id: 100
-
-    - name: edit a bot detection policy ip
-      fwebos_bot_detection_ip_ip:
+    - name: edit a bot detection policy
+      fwebos_bot_detection:
         action: edit 
-        policy_id: 2
         id: 1
-        ip: 192.13.3.41
-
+        anomaly_count: 14456
+        sampling_count: 999
+        security_action: alert_deny
+    
     - name: delete a bot detection policy
-      fwebos_bot_detection_ip_ip:
+      fwebos_bot_detection:
         action: delete 
-        policy_id: 2
         id: 1
-
 
 Return Values
 -------------
